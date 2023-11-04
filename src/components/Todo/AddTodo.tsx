@@ -26,7 +26,7 @@ const AddTodo: React.FC<Props> = ({ categoryId }) => {
   };
   return (
     <form onSubmit={handleAddTodo}>
-      <div className="flex flex-row gap-2 mt-4">
+      <div className="flex flex-row gap-4 mt-4">
         <div className="flex-shrink-0 flex gap-2 justify-end sm:justify-start">
           <Button
             size={"icon"}
