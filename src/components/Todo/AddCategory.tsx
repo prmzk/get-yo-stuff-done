@@ -34,7 +34,7 @@ const AddCategory = () => {
         <div className="flex flex-col w-full">
           <Input
             id={`title-${id}`}
-            aria-label="new-todo-title"
+            aria-label="new-category-title"
             required={true}
             minLength={1}
             onChange={(e) => setTitle(e.target.value)}
