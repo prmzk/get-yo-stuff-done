@@ -5,6 +5,7 @@ import AddTodo from "./AddTodo";
 import DeleteCategory from "./DeleteCategory";
 import TodoCard from "./TodoCard";
 import TodoCardDone from "./TodoCardDone";
+import TodoCategoryTitle from "./TodoCategoryTitle";
 
 type Props = {
   todos: TodoCategory;
@@ -24,12 +25,9 @@ const TodoCategoryGroup: React.FC<Props> = ({ todos }) => {
   return (
     <div className="w-full flex flex-col gap-4">
       <div className="flex items-center gap-2">
-        <h1 className="text-2xl font-bold text-primary break-all">
-          {sortedTodo.title}
-        </h1>
+        <TodoCategoryTitle title={todos.title} id={todos.id} />
         <DeleteCategory id={todos.id} />
       </div>
-      {/* {todos.todos.map((todo) => */}
       {sortedTodo.todos.map((todo) =>
         todo.status === "not-done" ? (
           <TodoCard todo={todo} key={todo.id} />
