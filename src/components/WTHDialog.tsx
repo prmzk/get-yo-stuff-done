@@ -62,7 +62,7 @@ const WTHDialog: React.FC<Props> = ({ children }) => {
           <h2 className="text-md mt-4 font-semibold text-white">We Coo?</h2>
         </div>
         <DialogFooter>
-          <DialogClose>
+          <DialogClose asChild>
             <Button variant="secondary">Coo then</Button>
           </DialogClose>
         </DialogFooter>

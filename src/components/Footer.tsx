@@ -2,7 +2,7 @@ import WTHDialog from "./WTHDialog";
 
 const Footer = () => {
   return (
-    <footer className="mt-40 mb-8 border-t border-gray-400 pt-8">
+    <footer className="mt-auto mb-8 border-t border-gray-400 pt-8">
       <div className="flex flex-col sm:flex-row justify-between">
         <div>
           <WTHDialog>
