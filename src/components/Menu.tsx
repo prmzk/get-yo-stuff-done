@@ -18,9 +18,7 @@ const Menu = () => {
           Toggle Category View
         </Button>
       </div>
-      <p>
-        Note: Double click todo/category to edit. Drag todo/category to reorder.
-      </p>
+      <p>Note: Click todo/category to edit. Drag todo/category to reorder.</p>
     </div>
   );
 };
