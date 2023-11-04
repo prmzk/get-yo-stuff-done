@@ -1,5 +1,5 @@
 import { CheckCheckIcon, Trash2 } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 type Props = {
   todo: { title: string; desc?: string };
