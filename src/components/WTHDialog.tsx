@@ -22,8 +22,9 @@ const WTHDialog: React.FC<Props> = ({ children }) => {
         </DialogHeader>
         <div className="flex flex-col gap-3 my-4 text-gray-200">
           <p className="text-sm">
-            Just another to do app. Tired of all the complex to do web-app
-            circulating the internet so I made one for myself.
+            Get Yo Stuff Done is just another to do app. Tired of all the
+            complex to do web-app circulating the internet so I made one for
+            myself.
           </p>
 
           <h2 className="text-md mt-4 font-semibold text-white">
@@ -41,15 +42,22 @@ const WTHDialog: React.FC<Props> = ({ children }) => {
           </p>
           <p className="text-sm">
             So that means you cannot access it on other device (or another
-            browser if yall into that idk)
+            browser if yall into that idk).
           </p>
           <h2 className="text-md mt-4 font-semibold text-white">
             {">  Syncing Data"}
           </h2>
           <p className="text-sm">
-            All you can do is copy the data by clicking the button and import it
-            elsewhere. Just note that it is not synced so you have to sync it
-            manually.
+            All you can do is export the data by clicking the button and import
+            it elsewhere. Just note that it is not synced so you have to sync it
+            manually by export-importing it again.
+          </p>
+          <h2 className="text-md mt-4 font-semibold text-white">
+            {">  No deadline? No rich text editor?"}
+          </h2>
+          <p className="text-sm">
+            This app meant to be simple, just type it on the description lil
+            bro.
           </p>
           <h2 className="text-md mt-4 font-semibold text-white">We Coo?</h2>
         </div>
