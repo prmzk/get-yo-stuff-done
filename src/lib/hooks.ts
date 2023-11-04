@@ -1,18 +1,22 @@
-import { useCallback, useMemo, useSyncExternalStore } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+} from "react";
 import { Todo, TodoCategory, Todos } from "./type";
 import { produce } from "immer";
 import { useToast } from "@/components/ui/use-toast";
 import { getLocalStorageTodo, setLocalStorageTodo } from "./utils";
 
-/* 
+/*  TO DO:
     TODO
-    - Edit todo
     - Edit todo order
-    - Move todo to another category (next ver)
+    - Move todo to another category
 
 
     CATEGORY
-    - Edit category title
     - Edit category order
 */
 
@@ -174,6 +178,50 @@ export const useTodo = () => {
     [setTodo, toast]
   );
 
+  const editTodo = useCallback(
+    (args: { id: string; newTitle: string; newDesc: string }) => {
+      const { id, newTitle, newDesc } = args;
+
+      setTodo((draft) => {
+        let categoryIndex = null;
+        let todoIndex = null;
+
+        try {
+          draft.data.forEach((todoCategory, todoCategoryIndex) => {
+            const index = todoCategory.todos.map((todo) => todo.id).indexOf(id);
+
+            if (index >= 0) {
+              todoIndex = index;
+              categoryIndex = todoCategoryIndex;
+              throw "found";
+            }
+          });
+        } catch (e) {
+          if (e === "found" && categoryIndex !== null && todoIndex !== null) {
+            draft.data[categoryIndex].todos[todoIndex].title = newTitle;
+            draft.data[categoryIndex].todos[todoIndex].desc = newDesc;
+          }
+        }
+      });
+    },
+    [setTodo]
+  );
+
+  const editCategoryTitle = useCallback(
+    (args: { id: string; newTitle: string }) => {
+      const { id, newTitle } = args;
+
+      setTodo((draft) => {
+        const index = draft.data
+          .map((todoCategory) => todoCategory.id)
+          .indexOf(id);
+
+        draft.data[index].title = newTitle;
+      });
+    },
+    [setTodo]
+  );
+
   return {
     todos: store,
     addTodo,
@@ -181,5 +229,43 @@ export const useTodo = () => {
     doneTodo,
     deleteTodo,
     deletecategory,
+    editTodo,
+    editCategoryTitle,
   };
+};
+
+export const useOutsideClick = (callback: () => void) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        callback();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [callback]);
+
+  return ref;
+};
+
+export const useKeyPress = (keyPress: string, callback: () => void) => {
+  useEffect(() => {
+    const handleClickOutside = (event: KeyboardEvent) => {
+      if (event.key === keyPress) {
+        callback();
+      }
+    };
+
+    document.addEventListener("keydown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("keydown", handleClickOutside);
+    };
+  }, [callback, keyPress]);
 };
