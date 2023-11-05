@@ -16,6 +16,10 @@ export const getLocalStorageTodo = () => {
   return window.localStorage.getItem("todos") ?? '{"data":[]}';
 };
 
+export const clearLocalStorageTodo = () => {
+  window.localStorage.removeItem("todos");
+};
+
 // Type guard for 'Todos'
 export function isSatisfiesTodoType(data: unknown): data is Todos {
   return (
