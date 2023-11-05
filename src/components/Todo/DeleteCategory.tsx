@@ -28,7 +28,7 @@ const DeleteCategory: React.FC<Props> = ({ id }) => {
           size={"icon"}
           aria-label="Delete Todo"
           title="Delete Todo"
-          className="h-6 w-8 flex-shrink-0"
+          className="flex-shrink-0"
         >
           <Trash2 size={12} />
         </Button>
