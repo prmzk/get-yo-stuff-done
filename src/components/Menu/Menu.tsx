@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 const Menu = () => {
   return (
@@ -10,13 +10,13 @@ const Menu = () => {
         <Button size="sm" className="text-xs h-fit px-3 py-1">
           Export
         </Button>
-        <Button
+        {/* <Button
           variant="secondary"
           size="sm"
           className="text-xs h-fit px-3 py-1"
         >
           Toggle Category View
-        </Button>
+        </Button> */}
       </div>
       <p>Note: Click todo/category to edit.</p>
     </div>
