@@ -1,3 +1,4 @@
+import ClearTodo from "./ClearTodo";
 import ExportDialog from "./ExportDialog";
 import ImportDialog from "./ImportDialog";
 
@@ -7,6 +8,7 @@ const Menu = () => {
       <div className="flex gap-2 flex-wrap mb-4">
         <ImportDialog />
         <ExportDialog />
+        <ClearTodo />
         {/* <Button
           variant="secondary"
           size="sm"
