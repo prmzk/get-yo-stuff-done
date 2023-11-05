@@ -5,11 +5,18 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import DeleteTodo from "./DeleteTodo";
+import ReorderTodo from "./ReorderTodo";
 
 type Props = {
   todo: Todo;
+  index: number;
+  isLastTodo: boolean;
 };
-const TodoCard: React.FC<Props> = ({ todo: { title, desc, id } }) => {
+const TodoCard: React.FC<Props> = ({
+  todo: { title, desc, id },
+  index,
+  isLastTodo,
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [editing, setEditing] = useState(false);
@@ -95,6 +102,9 @@ const TodoCard: React.FC<Props> = ({ todo: { title, desc, id } }) => {
         )}
 
         <DeleteTodo id={id} />
+      </div>
+      <div className="self-start flex items-center -ml-2">
+        <ReorderTodo index={index} isLastTodo={isLastTodo} id={id} />
       </div>
     </div>
   );

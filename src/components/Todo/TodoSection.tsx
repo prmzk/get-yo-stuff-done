@@ -6,8 +6,13 @@ const TodoSection = () => {
   const { todos } = useTodo();
   return (
     <div className="flex flex-col gap-8">
-      {todos.data.map((todoCat) => (
-        <TodoCategoryGroup key={todoCat.id} todos={todoCat} />
+      {todos.data.map((todoCat, index) => (
+        <TodoCategoryGroup
+          key={todoCat.id}
+          todos={todoCat}
+          index={index}
+          todosLength={todos.data.length}
+        />
       ))}
       <AddCategory />
     </div>
