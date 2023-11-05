@@ -46,14 +46,14 @@ const ExportDialog: React.FC = () => {
         </DialogHeader>
         <div className="flex flex-col gap-3 my-4 text-gray-200">
           <div className="grid w-full gap-4">
-            <Label htmlFor="import-textarea">
+            <Label htmlFor="export-textarea">
               Paste your exported todo file here:
             </Label>
             <Textarea
               required
-              aria-label="import"
-              placeholder="Type your message here."
-              id="import-textarea"
+              aria-label="export"
+              placeholder="Your export data"
+              id="export-textarea"
               className="h-60"
               readOnly={true}
               value={todoStringified}

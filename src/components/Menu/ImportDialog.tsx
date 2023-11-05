@@ -59,7 +59,7 @@ const ImportDialog: React.FC = () => {
             <Textarea
               required
               aria-label="import"
-              placeholder="Type your message here."
+              placeholder="Paste your data here"
               id="import-textarea"
               className="h-60"
               onChange={(e) => setImported(e.target.value)}
