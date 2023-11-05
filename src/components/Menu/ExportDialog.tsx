@@ -1,27 +1,30 @@
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
-import { getLocalStorageTodo } from "@/lib/utils";
-import { useCopyToClipboard } from "@/lib/hooks";
+import { Textarea } from "@/components/ui/textarea";
+import { useCopyToClipboard, useTodo } from "@/lib/hooks";
+import { useMemo, useState } from "react";
 
 const ExportDialog: React.FC = () => {
+  const { todos } = useTodo();
   const [open, setOpen] = useState(false);
-  const [storageData] = useState(() => getLocalStorageTodo());
   const copy = useCopyToClipboard();
+
+  const todoStringified = useMemo(() => {
+    return JSON.stringify(todos);
+  }, [todos]);
 
   const downloadtxtfile = () => {
     const element = document.createElement("a");
-    const file = new Blob([storageData], { type: "text/plain" });
+    const file = new Blob([todoStringified], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
     element.download = `GYSD-todos.txt`;
     document.body.appendChild(element); // required for this to work in firefox
@@ -29,7 +32,7 @@ const ExportDialog: React.FC = () => {
   };
 
   const handleCopy = () => {
-    copy(storageData);
+    copy(todoStringified);
   };
 
   return (
@@ -52,7 +55,8 @@ const ExportDialog: React.FC = () => {
               placeholder="Type your message here."
               id="import-textarea"
               className="h-60"
-              value={storageData}
+              readOnly={true}
+              value={todoStringified}
             />
           </div>
         </div>
