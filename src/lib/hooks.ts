@@ -10,16 +10,6 @@ import { produce } from "immer";
 import { useToast } from "@/components/ui/use-toast";
 import { getLocalStorageTodo, setLocalStorageTodo } from "./utils";
 
-/*  TO DO:
-    TODO
-    - Edit todo order
-    - Move todo to another category
-
-
-    CATEGORY
-    - Edit category order
-*/
-
 export const useTodo = () => {
   const { toast } = useToast();
   // Subscribe to the browser storage ...
@@ -222,6 +212,62 @@ export const useTodo = () => {
     [setTodo]
   );
 
+  const moveTodo = useCallback(
+    (args: { id: string; dir: "up" | "down" }) => {
+      const { id, dir } = args;
+
+      setTodo((draft) => {
+        let categoryIndex = null;
+        let todoIndex = null;
+
+        try {
+          draft.data.forEach((todoCategory, todoCategoryIndex) => {
+            const index = todoCategory.todos.map((todo) => todo.id).indexOf(id);
+
+            if (index >= 0) {
+              todoIndex = index;
+              categoryIndex = todoCategoryIndex;
+              throw "found";
+            }
+          });
+        } catch (e) {
+          if (e === "found" && categoryIndex !== null && todoIndex !== null) {
+            const [reorderingTodo] = draft.data[categoryIndex].todos.splice(
+              todoIndex,
+              1
+            );
+            draft.data[categoryIndex].todos.splice(
+              dir === "up" ? todoIndex - 1 : todoIndex + 1,
+              0,
+              reorderingTodo
+            );
+          }
+        }
+      });
+    },
+    [setTodo]
+  );
+
+  const moveCategory = useCallback(
+    (args: { id: string; dir: "up" | "down" }) => {
+      const { id, dir } = args;
+
+      setTodo((draft) => {
+        const index = draft.data
+          .map((todoCategory) => todoCategory.id)
+          .indexOf(id);
+
+        const [reorderingCategory] = draft.data.splice(index, 1);
+        draft.data.splice(
+          dir === "up" ? index - 1 : index + 1,
+          0,
+          reorderingCategory
+        );
+      });
+    },
+    [setTodo]
+  );
+
   return {
     todos: store,
     addTodo,
@@ -231,6 +277,8 @@ export const useTodo = () => {
     deletecategory,
     editTodo,
     editCategoryTitle,
+    moveTodo,
+    moveCategory,
   };
 };
 
