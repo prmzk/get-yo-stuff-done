@@ -133,7 +133,6 @@ export const useTodo = () => {
               draft.data[categoryIndex].todos.splice(todoIndex, 1);
               toast({
                 title: "Todo deleted",
-                variant: "destructive",
               });
             } catch (e) {
               console.log(e);
@@ -158,7 +157,6 @@ export const useTodo = () => {
           draft.data.splice(index, 1);
           toast({
             title: "Category deleted",
-            variant: "destructive",
           });
         } catch (e) {
           console.log(e);
