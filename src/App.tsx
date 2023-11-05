@@ -1,6 +1,6 @@
 import "./App.css";
 import Footer from "./components/Footer";
-import Menu from "./components/Menu";
+import Menu from "./components/Menu/Menu";
 import TodoSection from "./components/Todo/TodoSection";
 import { Toaster } from "./components/ui/toaster";
 
