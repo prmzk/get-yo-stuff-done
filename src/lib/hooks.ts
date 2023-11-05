@@ -1,3 +1,5 @@
+import { useToast } from "@/components/ui/use-toast";
+import { produce } from "immer";
 import {
   useCallback,
   useEffect,
@@ -6,8 +8,6 @@ import {
   useSyncExternalStore,
 } from "react";
 import { Todo, TodoCategory, Todos } from "./type";
-import { produce } from "immer";
-import { useToast } from "@/components/ui/use-toast";
 import { getLocalStorageTodo, setLocalStorageTodo } from "./utils";
 
 export const useTodo = () => {
@@ -317,3 +317,27 @@ export const useKeyPress = (keyPress: string, callback: () => void) => {
     };
   }, [callback, keyPress]);
 };
+
+export function useCopyToClipboard(): (text: string) => Promise<boolean> {
+  const { toast } = useToast();
+  const copy: (text: string) => Promise<boolean> = async (text) => {
+    if (!navigator?.clipboard) {
+      console.warn("Clipboard not supported");
+      return false;
+    }
+
+    // Try to save to clipboard then save it in the state if worked
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({
+        title: "Copied to clipboard",
+      });
+      return true;
+    } catch (error) {
+      console.warn("Copy failed", error);
+      return false;
+    }
+  };
+
+  return copy;
+}
