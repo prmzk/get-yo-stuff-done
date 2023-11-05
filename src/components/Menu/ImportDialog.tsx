@@ -30,6 +30,7 @@ const ImportDialog: React.FC = () => {
       }
       setLocalStorageTodo(parsed);
       setOpen(false);
+      setImported("");
       toast({
         title: "Import success.",
       });
