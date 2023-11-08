@@ -135,7 +135,11 @@ export const useTodo = () => {
                 title: "Todo deleted",
               });
             } catch (e) {
-              console.log(e);
+              let error = e;
+              if (typeof e !== "string") error = JSON.stringify(error);
+              toast({
+                title: error as string,
+              });
             }
           }
         }
@@ -159,7 +163,11 @@ export const useTodo = () => {
             title: "Category deleted",
           });
         } catch (e) {
-          console.log(e);
+          let error = e;
+          if (typeof e !== "string") error = JSON.stringify(error);
+          toast({
+            title: error as string,
+          });
         }
       });
     },

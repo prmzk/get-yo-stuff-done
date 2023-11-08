@@ -20,11 +20,13 @@ const ClearTodo: React.FC = () => {
     try {
       clearLocalStorageTodo();
       toast({
-        title: "Todo is cleared",
+        title: "Todo is cleared.",
       });
       setOpen(false);
     } catch {
-      console.log("Unable to clear todo");
+      toast({
+        title: "Unable to clear todo.",
+      });
     }
   };
 
