@@ -1,6 +1,6 @@
 import { useKeyPress, useMediaQuery, useOutsideClick } from "@/lib/hooks";
 import { Todos } from "@/lib/type";
-import { LayoutGrid, PlusCircle } from "lucide-react";
+import { LayoutGrid, PlusCircle, X } from "lucide-react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { TodoContextMethod } from "../context/TodoContext";
@@ -176,7 +176,7 @@ const MobileTab: React.FC<Props> = ({
       </Button>
       <Dialog open={open} onOpenChange={() => setOpen((prev) => !prev)}>
         <DialogContent className="w-full max-w-none data-[state=open]:!slide-in-from-bottom-full data-[state=closed]:!slide-out-to-bottom-full data-[state=open]:!zoom-in-100 data-[state=closed]:!zoom-out-100 !rounded-b-none top-[unset] bottom-0 translate-y-0 ">
-          <div className="flex flex-col gap-1 mt-8 max-h-80 overflow-scroll">
+          <div className="flex gap-1 max-h-80 overflow-scroll flex-wrap justify-center">
             {todos.data.map((todoCat) => (
               <div
                 key={todoCat.id}
@@ -191,47 +191,49 @@ const MobileTab: React.FC<Props> = ({
               </div>
             ))}
           </div>
-          <div className="flex justify-center w-full">
-            {!editing ? (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="w-full"
-                onClick={() => setEditing(true)}
-              >
-                <PlusCircle className="text-primary" />
-              </Button>
-            ) : (
-              <div ref={outsideRef} className="w-full">
-                <form onSubmit={handleAddCategory} className="flex gap-2">
-                  <Input
-                    ref={ref}
-                    id={`title-new`}
-                    aria-label="new-category-title"
-                    required={true}
-                    minLength={1}
-                    onChange={(e) => setTitle(e.target.value)}
-                    value={title}
-                    placeholder="New Category"
-                    className="text-primary border-0 rounded-none border-b focus-visible:ring-0 focus-visible:border-b-ring focus-visible:border-b-2"
-                  />
-                  <Button
-                    size={"icon"}
-                    variant={"outline"}
-                    aria-label="Add Todo"
-                    title="Add Todo"
-                    type="submit"
-                  >
-                    <PlusCircle size={16} strokeWidth={3} />
-                  </Button>
-                </form>
-              </div>
-            )}
-          </div>
-          <DialogFooter className="w-full flex flex-col">
+
+          <DialogFooter className="w-full flex flex-row gap-2">
+            <div className="flex justify-center w-full">
+              {!editing ? (
+                <Button
+                  variant="default"
+                  size="icon"
+                  className="w-full flex items-center gap-2"
+                  onClick={() => setEditing(true)}
+                >
+                  <PlusCircle />
+                  Add Category
+                </Button>
+              ) : (
+                <div ref={outsideRef} className="w-full">
+                  <form onSubmit={handleAddCategory} className="flex gap-2">
+                    <Button
+                      size={"icon"}
+                      variant={"default"}
+                      aria-label="Add Todo"
+                      title="Add Todo"
+                      type="submit"
+                    >
+                      <PlusCircle size={16} strokeWidth={3} />
+                    </Button>
+                    <Input
+                      ref={ref}
+                      id={`title-new`}
+                      aria-label="new-category-title"
+                      required={true}
+                      minLength={1}
+                      onChange={(e) => setTitle(e.target.value)}
+                      value={title}
+                      placeholder="New Category"
+                      className="text-primary border-0 rounded-none border-b focus-visible:ring-0 focus-visible:border-b-ring focus-visible:border-b-2"
+                    />
+                  </form>
+                </div>
+              )}
+            </div>
             <DialogClose asChild>
-              <Button variant="secondary" className="w-full">
-                Close
+              <Button variant="secondary">
+                <X />
               </Button>
             </DialogClose>
           </DialogFooter>
