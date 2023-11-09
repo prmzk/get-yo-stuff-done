@@ -31,6 +31,11 @@ const TodoCategoryTitle: React.FC<Props> = ({ title, id }) => {
     if (editing) inputRef.current?.focus();
   }, [editing, inputRef]);
 
+  // Buggy state on tabs view
+  useEffect(() => {
+    setTitleState(title);
+  }, [title]);
+
   return !editing ? (
     <h1
       className="text-2xl font-bold text-primary break-all cursor-pointer"

@@ -1,23 +1,42 @@
-import { useContext } from "react";
+import {
+  getLocalStorageCategoryView,
+  setLocalStorageCategoryView,
+} from "@/lib/utils";
+import { useContext, useEffect, useState } from "react";
 import { TodoContext } from "../context/TodoContext";
-import AddCategory from "./AddCategory";
-import TodoCategoryGroup from "./TodoCategoryGroup";
+import { Label } from "../ui/label";
+import { Switch } from "../ui/switch";
+import TodoViewGrid from "./TodoViewGrid";
+import TodoViewTab from "./TodoViewTab";
 
 const TodoSection = () => {
+  const [categoryView, setCategoryView] = useState<"tab" | "grid">(() => {
+    return getLocalStorageCategoryView();
+  });
   const { todos } = useContext(TodoContext);
 
+  useEffect(() => {
+    setLocalStorageCategoryView(categoryView);
+  }, [categoryView]);
+
   return (
-    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-      {todos.data.map((todoCat, index) => (
-        <TodoCategoryGroup
-          key={todoCat.id}
-          todos={todoCat}
-          index={index}
-          todosLength={todos.data.length}
+    <>
+      <div className="flex items-center gap-3 mb-8">
+        <Label htmlFor="category-view">Grids</Label>
+        <Switch
+          id="category-view"
+          checked={categoryView === "tab"}
+          onCheckedChange={(checked) =>
+            checked ? setCategoryView("tab") : setCategoryView("grid")
+          }
+          className="data-[state=unchecked]:bg-primary"
         />
-      ))}
-      <AddCategory />
-    </div>
+        <Label htmlFor="category-view">Tabs</Label>
+      </div>
+
+      {categoryView === "grid" && <TodoViewGrid todos={todos} />}
+      {categoryView === "tab" && <TodoViewTab todos={todos} />}
+    </>
   );
 };
 

@@ -9,11 +9,18 @@ export function cn(...inputs: ClassValue[]) {
 export const setLocalStorageTodo = (value: Todos) => {
   const stringifiedValue = JSON.stringify(value);
   window.localStorage.setItem("todos", stringifiedValue);
-  window.dispatchEvent(new Event("storage"));
 };
 
 export const getLocalStorageTodo = () => {
   return window.localStorage.getItem("todos") ?? '{"data":[]}';
+};
+
+export const setLocalStorageCategoryView = (view: "grid" | "tab") => {
+  window.localStorage.setItem("view", view);
+};
+
+export const getLocalStorageCategoryView = () => {
+  return (window.localStorage.getItem("view") ?? "grid") as "grid" | "tab";
 };
 
 export const clearLocalStorageTodo = () => {
