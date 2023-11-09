@@ -1,5 +1,5 @@
 import { Todos } from "@/lib/type";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import TodoCategoryGroup from "./TodoCategoryGroup";
 import TodoViewTabCategory from "./TodoViewTabCategory";
 
@@ -13,13 +13,10 @@ const TodoViewTab: React.FC<{ todos: Todos }> = ({ todos }) => {
     return todos.data[index];
   }, [categoryOpened, todos.data]);
 
-  const handleCategoryClick = (id: string) => setCategoryOpened(id);
-
-  useEffect(() => {
-    if (!selectedCategory) {
-      setCategoryOpened(todos.data[todos.data.length - 1]?.id);
-    }
-  }, [selectedCategory, todos.data]);
+  const handleCategoryClick = useCallback(
+    (id: string) => setCategoryOpened(id),
+    []
+  );
 
   return (
     <div className="grid md:grid-cols-4 xl:grid-cols-5 gap-8">
