@@ -14,6 +14,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import DeleteTodo from "./DeleteTodo";
 import { Textarea } from "../ui/textarea";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   todo: Todo;
@@ -28,6 +29,7 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
   const [titleState, setTitleState] = useState(title);
   const [descState, setDescState] = useState(desc || "");
   const { doneTodoAction, editTodoAction } = useContext(TodoContextMethod);
+  const [dragging, setDragging] = useState(false);
 
   const handleDoneTodo = () => {
     doneTodoAction({ id });
@@ -62,6 +64,10 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
       dragListener={false}
       dragControls={controls}
       transition={cancelAnimation || editing ? { duration: 0 } : undefined}
+      onDragEnd={(e) => {
+        setDragging(false);
+        e.preventDefault();
+      }}
     >
       <div className="flex flex-row gap-4 transition-none h-fit w-full">
         <div className="flex-shrink-0 flex gap-2 justify-end sm:justify-start">
@@ -75,7 +81,12 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
           </Button>
         </div>
 
-        <div className="bg-card rounded-lg border shadow-sm p-2 px-4 flex gap-4 justify-between w-full">
+        <div
+          className={twMerge(
+            "bg-card rounded-lg border shadow-sm p-2 px-4 flex gap-4 justify-between w-full transition-transform",
+            dragging ? "ring ring-primary" : "ring-0"
+          )}
+        >
           {!editing ? (
             <div
               className="text-gray-200 flex flex-col gap-2 cursor-pointer w-full"
@@ -125,8 +136,13 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
         <div
           className="flex items-center cursor-grab touch-none"
           onPointerDown={(e) => {
+            setDragging(true);
             e.preventDefault();
             controls.start(e);
+          }}
+          onPointerUp={(e) => {
+            setDragging(false);
+            e.preventDefault();
           }}
         >
           <Grip className="reorder-handle" />

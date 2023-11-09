@@ -21,8 +21,6 @@ const TodoViewTab: React.FC<{ todos: Todos }> = ({ todos }) => {
     }
   }, [selectedCategory, todos.data]);
 
-  console.log(selectedCategory);
-
   return (
     <div className="grid md:grid-cols-4 xl:grid-cols-5 gap-8">
       <div className="md:col-span-1 flex flex-col gap-2">

@@ -118,14 +118,10 @@ const TodoProvider: FC<{
 
   const importTodoAction = useCallback(
     (item: ItemByActionType["IMPORT-TODO"]) => {
-      try {
-        dispatch({
-          type: "IMPORT-TODO",
-          item,
-        });
-      } catch (e) {
-        console.log("BOO");
-      }
+      dispatch({
+        type: "IMPORT-TODO",
+        item,
+      });
     },
     []
   );
