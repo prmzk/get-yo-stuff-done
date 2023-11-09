@@ -1,14 +1,13 @@
-import { TodoCategory } from "@/lib/type";
-import { produce } from "immer";
-import { useCallback, useMemo } from "react";
+import { useTodo } from "@/lib/hooks";
+import { Todo, TodoCategory } from "@/lib/type";
+import { Reorder } from "framer-motion";
+import { ArrowDown, ArrowUp } from "lucide-react";
+import { Button } from "../ui/button";
 import AddTodo from "./AddTodo";
 import DeleteCategory from "./DeleteCategory";
 import TodoCard from "./TodoCard";
 import TodoCardDone from "./TodoCardDone";
 import TodoCategoryTitle from "./TodoCategoryTitle";
-import { Button } from "../ui/button";
-import { ArrowDown, ArrowUp } from "lucide-react";
-import { useTodo } from "@/lib/hooks";
 
 type Props = {
   todos: TodoCategory;
@@ -26,29 +25,6 @@ const TodoCategoryGroup: React.FC<Props> = ({ todos, index, todosLength }) => {
   const handleMoveCategoryDown = () => {
     moveCategory({ id: todos.id, dir: "down" });
   };
-
-  const sortedTodo = useMemo(() => {
-    return produce(todos, (draft) => {
-      draft.todos.sort((todoA, todoB) => {
-        if (todoA.status !== "done" && todoB.status === "done") return -1;
-        if (todoA.status === "done" && todoB.status !== "done") return 1;
-        return 1;
-      });
-    });
-  }, [todos]);
-
-  const isLastTodo = useCallback(
-    (index: number) => {
-      if (index === sortedTodo.todos.length - 1) return true;
-      const undoneTodo = sortedTodo.todos.filter(
-        (todo) => todo.status === "not-done"
-      );
-      if (index === undoneTodo.length - 1) return true;
-
-      return false;
-    },
-    [sortedTodo]
-  );
 
   return (
     <div className="w-full flex flex-col gap-4">
@@ -80,20 +56,47 @@ const TodoCategoryGroup: React.FC<Props> = ({ todos, index, todosLength }) => {
           )}
         </div>
       </div>
-      {sortedTodo.todos.map((todo, index) =>
-        todo.status === "not-done" ? (
-          <TodoCard
-            todo={todo}
-            key={todo.id}
-            index={index}
-            isLastTodo={isLastTodo(index)}
-          />
-        ) : (
-          <TodoCardDone todo={todo} key={todo.id} />
-        )
-      )}
+      <TodoGroup todos={todos.todos} categoryId={todos.id} />
       <AddTodo categoryId={todos.id} />
     </div>
+  );
+};
+
+type PropsTodoGroup = {
+  todos: Todo[];
+  categoryId: string;
+};
+
+const TodoGroup: React.FC<PropsTodoGroup> = ({ todos, categoryId }) => {
+  const { reorderTodo } = useTodo();
+
+  const handleReorder = (newTodos: Todo[]) => {
+    reorderTodo({
+      categoryId,
+      newTodos,
+    });
+  };
+
+  return (
+    <>
+      <Reorder.Group
+        axis="y"
+        values={todos.filter((todo) => todo.status === "not-done")}
+        onReorder={(val) => handleReorder(val)}
+        className="w-full flex flex-col gap-4 relative"
+      >
+        {todos
+          .filter((todo) => todo.status === "not-done")
+          .map((todo) => (
+            <TodoCard key={todo.id} todo={todo} />
+          ))}
+      </Reorder.Group>
+      {todos
+        .filter((todo) => todo.status === "done")
+        .map((todo) => (
+          <TodoCardDone todo={todo} key={todo.id} />
+        ))}
+    </>
   );
 };
 

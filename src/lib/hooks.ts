@@ -5,6 +5,7 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
   useSyncExternalStore,
 } from "react";
 import { Todo, TodoCategory, Todos } from "./type";
@@ -218,37 +219,16 @@ export const useTodo = () => {
     [setTodo]
   );
 
-  const moveTodo = useCallback(
-    (args: { id: string; dir: "up" | "down" }) => {
-      const { id, dir } = args;
-
+  const reorderTodo = useCallback(
+    (args: { categoryId: string; newTodos: Todo[] }) => {
+      const { categoryId, newTodos } = args;
+      console.log("jalan", categoryId);
       setTodo((draft) => {
-        let categoryIndex = null;
-        let todoIndex = null;
+        const index = draft.data
+          .map((todoCategory) => todoCategory.id)
+          .indexOf(categoryId);
 
-        try {
-          draft.data.forEach((todoCategory, todoCategoryIndex) => {
-            const index = todoCategory.todos.map((todo) => todo.id).indexOf(id);
-
-            if (index >= 0) {
-              todoIndex = index;
-              categoryIndex = todoCategoryIndex;
-              throw "found";
-            }
-          });
-        } catch (e) {
-          if (e === "found" && categoryIndex !== null && todoIndex !== null) {
-            const [reorderingTodo] = draft.data[categoryIndex].todos.splice(
-              todoIndex,
-              1
-            );
-            draft.data[categoryIndex].todos.splice(
-              dir === "up" ? todoIndex - 1 : todoIndex + 1,
-              0,
-              reorderingTodo
-            );
-          }
-        }
+        draft.data[index].todos = newTodos;
       });
     },
     [setTodo]
@@ -283,7 +263,7 @@ export const useTodo = () => {
     deletecategory,
     editTodo,
     editCategoryTitle,
-    moveTodo,
+    reorderTodo,
     moveCategory,
   };
 };
@@ -346,4 +326,18 @@ export function useCopyToClipboard(): (text: string) => Promise<boolean> {
   };
 
   return copy;
+}
+
+export function useDebounce<T>(value: T, delay?: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay || 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
 }

@@ -1,23 +1,19 @@
 import { useKeyPress, useOutsideClick, useTodo } from "@/lib/hooks";
 import { Todo } from "@/lib/type";
-import { CheckCheckIcon } from "lucide-react";
+import { Reorder, useDragControls } from "framer-motion";
+import { CheckCheckIcon, Grip } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import DeleteTodo from "./DeleteTodo";
-import ReorderTodo from "./ReorderTodo";
 
 type Props = {
   todo: Todo;
-  index: number;
-  isLastTodo: boolean;
 };
-const TodoCard: React.FC<Props> = ({
-  todo: { title, desc, id },
-  index,
-  isLastTodo,
-}) => {
+const TodoCard: React.FC<Props> = ({ todo }) => {
+  const { id, title, desc } = todo;
   const inputRef = useRef<HTMLInputElement>(null);
+  const controls = useDragControls();
 
   const [editing, setEditing] = useState(false);
   const [titleState, setTitleState] = useState(title);
@@ -48,65 +44,80 @@ const TodoCard: React.FC<Props> = ({
   }, [editing, inputRef]);
 
   return (
-    <div className="flex flex-row gap-4">
-      <div className="flex-shrink-0 flex gap-2 justify-end sm:justify-start">
-        <Button
-          size={"icon"}
-          aria-label="Done Todo"
-          title="Done Todo"
-          onClick={handleDoneTodo}
-        >
-          <CheckCheckIcon size={16} strokeWidth={3} />
-        </Button>
-      </div>
-
-      <div className="bg-card rounded-lg border shadow-sm p-2 px-4 flex gap-4 justify-between">
-        {!editing ? (
-          <div
-            className="text-gray-200 flex flex-col gap-2 cursor-pointer"
-            onClick={() => setEditing(true)}
+    <Reorder.Item
+      value={todo}
+      dragListener={false}
+      dragControls={controls}
+      transition={{ duration: 0 }}
+    >
+      <div className="flex flex-row gap-4 transition-none h-fit">
+        <div className="flex-shrink-0 flex gap-2 justify-end sm:justify-start">
+          <Button
+            size={"icon"}
+            aria-label="Done Todo"
+            title="Done Todo"
+            onClick={handleDoneTodo}
           >
-            <p className="text-md font-bold antialiased text-md break-all ">
-              {title}
-            </p>
-            {desc && <p className="text-gray-400 text-sm break-all">{desc}</p>}
-          </div>
-        ) : (
-          <div ref={outsideRef}>
-            <form
-              onSubmit={handleEditTodo}
-              className="text-gray-200 flex flex-col gap-2 cursor-pointer"
-            >
-              <Input
-                ref={inputRef}
-                id={`edit-title-${id}`}
-                aria-label="edit-todo-title"
-                required={true}
-                minLength={1}
-                onChange={(e) => setTitleState(e.target.value)}
-                value={titleState}
-                placeholder="Edit New Title"
-                className="text-md font-bold antialiased border-0 rounded-none border-b focus-visible:ring-0 focus-visible:border-b-ring focus-visible:border-b-2 bg-card px-0"
-              />
-              <Input
-                id={`edit-desc-${id}`}
-                aria-label="edit-todo-description"
-                onChange={(e) => setDescState(e.target.value)}
-                value={descState}
-                placeholder="Description"
-                className="text-gray-400 text-sm border-0 rounded-none border-b focus-visible:ring-0 focus-visible:border-b-ring focus-visible:border-b-2 bg-card px-0"
-              />
-              <Button size={"icon"} className="hidden" type="submit"></Button>
-            </form>
-          </div>
-        )}
+            <CheckCheckIcon size={16} strokeWidth={3} />
+          </Button>
+        </div>
 
-        <DeleteTodo id={id} />
+        <div className="bg-card rounded-lg border shadow-sm p-2 px-4 flex gap-4 justify-between0">
+          {!editing ? (
+            <div
+              className="text-gray-200 flex flex-col gap-2 cursor-pointer"
+              onClick={() => setEditing(true)}
+            >
+              <p className="text-md font-bold antialiased text-md break-all ">
+                {title}
+              </p>
+              {desc && (
+                <p className="text-gray-400 text-sm break-all">{desc}</p>
+              )}
+            </div>
+          ) : (
+            <div ref={outsideRef}>
+              <form
+                onSubmit={handleEditTodo}
+                className="text-gray-200 flex flex-col gap-2 cursor-pointer"
+              >
+                <Input
+                  ref={inputRef}
+                  id={`edit-title-${id}`}
+                  aria-label="edit-todo-title"
+                  required={true}
+                  minLength={1}
+                  onChange={(e) => setTitleState(e.target.value)}
+                  value={titleState}
+                  placeholder="Edit New Title"
+                  className="text-md font-bold antialiased border-0 rounded-none border-b focus-visible:ring-0 focus-visible:border-b-ring focus-visible:border-b-2 bg-card px-0"
+                />
+                <Input
+                  id={`edit-desc-${id}`}
+                  aria-label="edit-todo-description"
+                  onChange={(e) => setDescState(e.target.value)}
+                  value={descState}
+                  placeholder="Description"
+                  className="text-gray-400 text-sm border-0 rounded-none border-b focus-visible:ring-0 focus-visible:border-b-ring focus-visible:border-b-2 bg-card px-0"
+                />
+                <Button size={"icon"} className="hidden" type="submit"></Button>
+              </form>
+            </div>
+          )}
+
+          <DeleteTodo id={id} />
+        </div>
+        <div
+          className="flex items-center cursor-grab touch-none"
+          onPointerDown={(e) => {
+            e.preventDefault();
+            controls.start(e);
+          }}
+        >
+          <Grip className="reorder-handle" />
+        </div>
       </div>
-      <div className="self-start flex items-center -ml-2">
-        <ReorderTodo index={index} isLastTodo={isLastTodo} id={id} />
-      </div>
-    </div>
+    </Reorder.Item>
   );
 };
 
