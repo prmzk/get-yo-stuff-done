@@ -2,7 +2,13 @@ import { useKeyPress, useOutsideClick } from "@/lib/hooks";
 import { Todo } from "@/lib/type";
 import { Reorder, useDragControls } from "framer-motion";
 import { CheckCheckIcon, Grip } from "lucide-react";
-import { useContext, useEffect, useRef, useState } from "react";
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { TodoContext } from "../context/TodoContext";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -16,6 +22,7 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const controls = useDragControls();
 
+  const [cancelAnimation, setCancelAnimation] = useState(false);
   const [editing, setEditing] = useState(false);
   const [titleState, setTitleState] = useState(title);
   const [descState, setDescState] = useState(desc || "");
@@ -44,12 +51,16 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
     if (editing) inputRef.current?.focus();
   }, [editing, inputRef]);
 
+  useLayoutEffect(() => {
+    setCancelAnimation(editing);
+  }, [editing]);
+
   return (
     <Reorder.Item
       value={todo}
       dragListener={false}
       dragControls={controls}
-      transition={{ duration: 0 }}
+      transition={cancelAnimation || editing ? { duration: 0 } : undefined}
     >
       <div className="flex flex-row gap-4 transition-none h-fit w-full">
         <div className="flex-shrink-0 flex gap-2 justify-end sm:justify-start">
@@ -66,7 +77,7 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
         <div className="bg-card rounded-lg border shadow-sm p-2 px-4 flex gap-4 justify-between w-full">
           {!editing ? (
             <div
-              className="text-gray-200 flex flex-col gap-2 cursor-pointer"
+              className="text-gray-200 flex flex-col gap-2 cursor-pointer w-full"
               onClick={() => setEditing(true)}
             >
               <p className="text-md font-bold antialiased text-md break-all ">
