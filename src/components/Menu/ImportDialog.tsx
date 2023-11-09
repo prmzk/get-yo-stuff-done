@@ -69,7 +69,7 @@ const ImportDialog: React.FC = () => {
             />
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="flex flex-col sm:flex-row sm:gap-0 gap-4">
           <Button variant="secondary" type="submit" onClick={handleImport}>
             Confirm Import
           </Button>
