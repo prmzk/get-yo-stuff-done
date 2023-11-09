@@ -1,23 +1,29 @@
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import { useTodo } from "@/lib/hooks";
+import { useContext } from "react";
+import { TodoContext } from "../context/TodoContext";
+import { useToast } from "../ui/use-toast";
 type Props = {
   id: string;
 };
 
 const DeleteTodo: React.FC<Props> = ({ id }) => {
-  const { deleteTodo } = useTodo();
+  const { toast } = useToast();
+  const { deleteTodoAction } = useContext(TodoContext);
   const handleDeleteTodo = () => {
-    deleteTodo({ id });
+    deleteTodoAction({ id });
+    toast({
+      title: "Todo successfully deleted",
+    });
   };
 
   return (

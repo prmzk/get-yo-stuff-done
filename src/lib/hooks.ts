@@ -222,7 +222,6 @@ export const useTodo = () => {
   const reorderTodo = useCallback(
     (args: { categoryId: string; newTodos: Todo[] }) => {
       const { categoryId, newTodos } = args;
-      console.log("jalan", categoryId);
       setTodo((draft) => {
         const index = draft.data
           .map((todoCategory) => todoCategory.id)

@@ -1,8 +1,8 @@
-import React, { useId, useState } from "react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
-import { useTodo } from "@/lib/hooks";
+import React, { useContext, useId, useState } from "react";
+import { TodoContext } from "../context/TodoContext";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 type Props = {
   categoryId: string;
@@ -13,14 +13,14 @@ const AddTodo: React.FC<Props> = ({ categoryId }) => {
   const [desc, setDesc] = useState("");
 
   const id = useId();
-  const { addTodo } = useTodo();
+  const { addTodoAction } = useContext(TodoContext);
 
   const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setTitle("");
     setDesc("");
-    addTodo({
-      newTodo: { title, desc, status: "not-done" },
+    addTodoAction({
+      newTodo: { title, desc },
       categoryId,
     });
   };

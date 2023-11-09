@@ -1,18 +1,18 @@
-import React, { useId, useState } from "react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
-import { useTodo } from "@/lib/hooks";
+import React, { useContext, useId, useState } from "react";
+import { TodoContext } from "../context/TodoContext";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 const AddCategory = () => {
-  const { addCategory } = useTodo();
+  const { addCategoryAction } = useContext(TodoContext);
   const [title, setTitle] = useState("");
 
   const id = useId();
   const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setTitle("");
-    addCategory({
+    addCategoryAction({
       title,
     });
   };

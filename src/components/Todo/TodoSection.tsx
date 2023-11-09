@@ -1,9 +1,11 @@
-import { useTodo } from "@/lib/hooks";
+import { useContext } from "react";
+import { TodoContext } from "../context/TodoContext";
 import AddCategory from "./AddCategory";
 import TodoCategoryGroup from "./TodoCategoryGroup";
 
 const TodoSection = () => {
-  const { todos } = useTodo();
+  const { todos } = useContext(TodoContext);
+
   return (
     <div className="flex flex-col gap-8">
       {todos.data.map((todoCat, index) => (

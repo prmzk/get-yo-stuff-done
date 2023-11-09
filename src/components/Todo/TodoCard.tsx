@@ -1,8 +1,9 @@
-import { useKeyPress, useOutsideClick, useTodo } from "@/lib/hooks";
+import { useKeyPress, useOutsideClick } from "@/lib/hooks";
 import { Todo } from "@/lib/type";
 import { Reorder, useDragControls } from "framer-motion";
 import { CheckCheckIcon, Grip } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { TodoContext } from "../context/TodoContext";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import DeleteTodo from "./DeleteTodo";
@@ -18,16 +19,16 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
   const [editing, setEditing] = useState(false);
   const [titleState, setTitleState] = useState(title);
   const [descState, setDescState] = useState(desc || "");
-  const { doneTodo, editTodo } = useTodo();
+  const { doneTodoAction, editTodoAction } = useContext(TodoContext);
 
   const handleDoneTodo = () => {
-    doneTodo({ id });
+    doneTodoAction({ id });
   };
 
   const handleEditTodo = (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
     setEditing(false);
-    editTodo({
+    editTodoAction({
       id,
       newTitle: titleState,
       newDesc: descState,

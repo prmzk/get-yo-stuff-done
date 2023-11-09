@@ -10,11 +10,12 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useCopyToClipboard, useTodo } from "@/lib/hooks";
-import { useMemo, useState } from "react";
+import { useCopyToClipboard } from "@/lib/hooks";
+import { useContext, useMemo, useState } from "react";
+import { TodoContext } from "../context/TodoContext";
 
 const ExportDialog: React.FC = () => {
-  const { todos } = useTodo();
+  const { todos } = useContext(TodoContext);
   const [open, setOpen] = useState(false);
   const copy = useCopyToClipboard();
 

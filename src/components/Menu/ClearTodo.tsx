@@ -8,17 +8,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { clearLocalStorageTodo } from "@/lib/utils";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { TodoContext } from "../context/TodoContext";
 import { useToast } from "../ui/use-toast";
 
 const ClearTodo: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const { clearTodoAction } = useContext(TodoContext);
   const { toast } = useToast();
 
   const handleClearTodo = () => {
     try {
-      clearLocalStorageTodo();
+      clearTodoAction();
       toast({
         title: "Todo is cleared.",
       });

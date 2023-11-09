@@ -1,20 +1,22 @@
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { Textarea } from "../ui/textarea";
+import { isSatisfiesTodoType } from "@/lib/utils";
 import { Label } from "@radix-ui/react-label";
+import { useContext, useState } from "react";
+import { TodoContext } from "../context/TodoContext";
+import { Textarea } from "../ui/textarea";
 import { useToast } from "../ui/use-toast";
-import { isSatisfiesTodoType, setLocalStorageTodo } from "@/lib/utils";
 
 const ImportDialog: React.FC = () => {
+  const { importTodoAction } = useContext(TodoContext);
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [imported, setImported] = useState("");
@@ -28,7 +30,7 @@ const ImportDialog: React.FC = () => {
       if (!isSatisfiesTodoType(parsed)) {
         throw "";
       }
-      setLocalStorageTodo(parsed);
+      importTodoAction({ newTodos: parsed });
       setOpen(false);
       setImported("");
       toast({

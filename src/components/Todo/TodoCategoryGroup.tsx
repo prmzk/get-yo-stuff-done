@@ -1,7 +1,8 @@
-import { useTodo } from "@/lib/hooks";
 import { Todo, TodoCategory } from "@/lib/type";
 import { Reorder } from "framer-motion";
 import { ArrowDown, ArrowUp } from "lucide-react";
+import { useContext } from "react";
+import { TodoContext } from "../context/TodoContext";
 import { Button } from "../ui/button";
 import AddTodo from "./AddTodo";
 import DeleteCategory from "./DeleteCategory";
@@ -16,14 +17,14 @@ type Props = {
 };
 
 const TodoCategoryGroup: React.FC<Props> = ({ todos, index, todosLength }) => {
-  const { moveCategory } = useTodo();
+  const { moveCategoryAction } = useContext(TodoContext);
 
   const handleMoveCategoryUp = () => {
-    moveCategory({ id: todos.id, dir: "up" });
+    moveCategoryAction({ id: todos.id, dir: "up" });
   };
 
   const handleMoveCategoryDown = () => {
-    moveCategory({ id: todos.id, dir: "down" });
+    moveCategoryAction({ id: todos.id, dir: "down" });
   };
 
   return (
@@ -68,10 +69,10 @@ type PropsTodoGroup = {
 };
 
 const TodoGroup: React.FC<PropsTodoGroup> = ({ todos, categoryId }) => {
-  const { reorderTodo } = useTodo();
+  const { reorderTodoAction } = useContext(TodoContext);
 
   const handleReorder = (newTodos: Todo[]) => {
-    reorderTodo({
+    reorderTodoAction({
       categoryId,
       newTodos,
     });
