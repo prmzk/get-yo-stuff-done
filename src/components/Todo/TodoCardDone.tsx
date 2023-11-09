@@ -16,7 +16,7 @@ const TodoCardDone: React.FC<Props> = ({ todo: { title, desc, id } }) => {
   };
 
   return (
-    <div className="flex flex-row gap-4">
+    <div className="flex flex-row gap-4 w-full">
       <div className="flex-shrink-0 flex gap-2 justify-end sm:justify-start">
         <Button
           variant={"secondary"}
@@ -28,7 +28,7 @@ const TodoCardDone: React.FC<Props> = ({ todo: { title, desc, id } }) => {
           <UndoIcon size={16} strokeWidth={3} />
         </Button>
       </div>
-      <div className="bg-card rounded-lg border shadow-sm p-2 px-4 flex gap-2 justify-between">
+      <div className="bg-card rounded-lg border shadow-sm p-2 px-4 flex gap-2 justify-between w-full">
         <div className="text-gray-200 flex flex-col gap-2">
           <p className="text-md font-bold antialiased text-md line-through brightness-50 break-all">
             {title}
@@ -41,6 +41,7 @@ const TodoCardDone: React.FC<Props> = ({ todo: { title, desc, id } }) => {
         </div>
         <DeleteTodo id={id} />
       </div>
+      <div className="w-[28px]"></div>
     </div>
   );
 };
