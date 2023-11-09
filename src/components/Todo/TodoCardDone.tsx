@@ -34,7 +34,7 @@ const TodoCardDone: React.FC<Props> = ({ todo: { title, desc, id } }) => {
             {title}
           </p>
           {desc && (
-            <p className="text-gray-400 text-sm line-through break-all brightness-50">
+            <p className="text-gray-400 text-sm break-all line-through whitespace-pre-line brightness-50 mb-2">
               {desc}
             </p>
           )}

@@ -3,6 +3,7 @@ import React, { useContext, useId, useState } from "react";
 import { TodoContext } from "../context/TodoContext";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 
 type Props = {
   categoryId: string;
@@ -49,13 +50,13 @@ const AddTodo: React.FC<Props> = ({ categoryId }) => {
             placeholder="New Title"
             className="text-md font-bold antialiased border-0 rounded-none border-b focus-visible:ring-0 focus-visible:border-b-ring focus-visible:border-b-2"
           />
-          <Input
+          <Textarea
             id={`desc-${id}`}
             aria-label="new-todo-description"
             onChange={(e) => setDesc(e.target.value)}
             value={desc}
             placeholder="Description"
-            className="text-gray-400 text-sm border-0 rounded-none border-b focus-visible:ring-0 focus-visible:border-b-ring focus-visible:border-b-2"
+            className="text-gray-400 text-sm border-0 rounded-none border-b focus-visible:ring-0 focus-visible:border-b-ring focus-visible:border-b-2 focus-visible:ring-offset-0"
           />
         </div>
       </div>

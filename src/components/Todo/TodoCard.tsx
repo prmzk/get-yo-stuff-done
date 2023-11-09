@@ -13,6 +13,7 @@ import { TodoContext } from "../context/TodoContext";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import DeleteTodo from "./DeleteTodo";
+import { Textarea } from "../ui/textarea";
 
 type Props = {
   todo: Todo;
@@ -84,11 +85,13 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
                 {title}
               </p>
               {desc && (
-                <p className="text-gray-400 text-sm break-all">{desc}</p>
+                <p className="text-gray-400 text-sm break-all whitespace-pre-line mb-2">
+                  {desc}
+                </p>
               )}
             </div>
           ) : (
-            <div ref={outsideRef}>
+            <div ref={outsideRef} className="w-full">
               <form
                 onSubmit={handleEditTodo}
                 className="text-gray-200 flex flex-col gap-2 cursor-pointer"
@@ -104,13 +107,13 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
                   placeholder="Edit New Title"
                   className="text-md font-bold antialiased border-0 rounded-none border-b focus-visible:ring-0 focus-visible:border-b-ring focus-visible:border-b-2 bg-card px-0"
                 />
-                <Input
+                <Textarea
                   id={`edit-desc-${id}`}
                   aria-label="edit-todo-description"
                   onChange={(e) => setDescState(e.target.value)}
                   value={descState}
                   placeholder="Description"
-                  className="text-gray-400 text-sm border-0 rounded-none border-b focus-visible:ring-0 focus-visible:border-b-ring focus-visible:border-b-2 bg-card px-0"
+                  className="text-gray-400 text-sm border-0 rounded-none border-b focus-visible:outline-none focus-visible:ring-0 focus-visible:border-b-ring focus-visible:border-b-2 bg-card p-0 focus-visible:ring-offset-0"
                 />
                 <Button size={"icon"} className="hidden" type="submit"></Button>
               </form>
