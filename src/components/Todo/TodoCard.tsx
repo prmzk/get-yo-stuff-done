@@ -51,7 +51,7 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
       dragControls={controls}
       transition={{ duration: 0 }}
     >
-      <div className="flex flex-row gap-4 transition-none h-fit">
+      <div className="flex flex-row gap-4 transition-none h-fit w-full">
         <div className="flex-shrink-0 flex gap-2 justify-end sm:justify-start">
           <Button
             size={"icon"}
@@ -63,7 +63,7 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
           </Button>
         </div>
 
-        <div className="bg-card rounded-lg border shadow-sm p-2 px-4 flex gap-4 justify-between0">
+        <div className="bg-card rounded-lg border shadow-sm p-2 px-4 flex gap-4 justify-between w-full">
           {!editing ? (
             <div
               className="text-gray-200 flex flex-col gap-2 cursor-pointer"

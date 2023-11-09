@@ -7,7 +7,7 @@ const TodoSection = () => {
   const { todos } = useContext(TodoContext);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
       {todos.data.map((todoCat, index) => (
         <TodoCategoryGroup
           key={todoCat.id}

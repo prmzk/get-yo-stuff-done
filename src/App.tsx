@@ -7,7 +7,7 @@ import { Toaster } from "./components/ui/toaster";
 
 function App() {
   return (
-    <main className="max-w-7xl mx-auto px-4 min-h-screen flex flex-col">
+    <main className="mx-auto px-4 min-h-screen flex flex-col">
       <section className="mb-40">
         <TodoProvider>
           <Menu />
