@@ -1,6 +1,6 @@
 import { PlusCircle } from "lucide-react";
 import React, { useContext, useId, useState } from "react";
-import { TodoContext } from "../context/TodoContext";
+import { TodoContextMethod } from "../context/TodoContext";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -14,7 +14,7 @@ const AddTodo: React.FC<Props> = ({ categoryId }) => {
   const [desc, setDesc] = useState("");
 
   const id = useId();
-  const { addTodoAction } = useContext(TodoContext);
+  const { addTodoAction } = useContext(TodoContextMethod);
 
   const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

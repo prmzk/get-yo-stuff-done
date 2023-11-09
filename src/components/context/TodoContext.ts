@@ -4,6 +4,13 @@ import { ItemByActionType } from "./todo-reducer";
 
 const initialContextValue: {
   todos: Todos;
+} = {
+  todos: {
+    data: [],
+  },
+};
+
+const initialContextMenthods: {
   addTodoAction: (item: ItemByActionType["ADD-TODO"]) => void;
   addCategoryAction: (item: ItemByActionType["ADD-CATEGORY"]) => void;
   doneTodoAction: (item: ItemByActionType["DONE-TODO"]) => void;
@@ -18,9 +25,6 @@ const initialContextValue: {
   importTodoAction: (item: ItemByActionType["IMPORT-TODO"]) => void;
   clearTodoAction: () => void;
 } = {
-  todos: {
-    data: [],
-  },
   addTodoAction: () => {},
   addCategoryAction: () => {},
   doneTodoAction: () => {},
@@ -35,3 +39,4 @@ const initialContextValue: {
 };
 
 export const TodoContext = createContext(initialContextValue);
+export const TodoContextMethod = createContext(initialContextMenthods);

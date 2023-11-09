@@ -1,6 +1,6 @@
 import { useKeyPress, useOutsideClick } from "@/lib/hooks";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { TodoContext } from "../context/TodoContext";
+import { TodoContextMethod } from "../context/TodoContext";
 import { Input } from "../ui/input";
 
 type Props = {
@@ -12,7 +12,7 @@ const TodoCategoryTitle: React.FC<Props> = ({ title, id }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [editing, setEditing] = useState(false);
   const [titleState, setTitleState] = useState(title);
-  const { editCategoryTitleAction } = useContext(TodoContext);
+  const { editCategoryTitleAction } = useContext(TodoContextMethod);
   const handleEditCategory = (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
     setEditing(false);

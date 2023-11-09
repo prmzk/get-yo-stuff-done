@@ -11,12 +11,12 @@ import {
 import { isSatisfiesTodoType } from "@/lib/utils";
 import { Label } from "@radix-ui/react-label";
 import { useContext, useState } from "react";
-import { TodoContext } from "../context/TodoContext";
+import { TodoContextMethod } from "../context/TodoContext";
 import { Textarea } from "../ui/textarea";
 import { useToast } from "../ui/use-toast";
 
 const ImportDialog: React.FC = () => {
-  const { importTodoAction } = useContext(TodoContext);
+  const { importTodoAction } = useContext(TodoContextMethod);
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [imported, setImported] = useState("");

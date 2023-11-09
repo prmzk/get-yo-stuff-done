@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Trash2 } from "lucide-react";
 import { useContext } from "react";
-import { TodoContext } from "../context/TodoContext";
+import { TodoContextMethod } from "../context/TodoContext";
 import { useToast } from "../ui/use-toast";
 type Props = {
   id: string;
@@ -18,7 +18,7 @@ type Props = {
 
 const DeleteCategory: React.FC<Props> = ({ id }) => {
   const { toast } = useToast();
-  const { deleteCategoryAction } = useContext(TodoContext);
+  const { deleteCategoryAction } = useContext(TodoContextMethod);
   const handleDeleteCategory = () => {
     deleteCategoryAction({ id });
     toast({

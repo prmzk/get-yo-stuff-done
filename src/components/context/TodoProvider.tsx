@@ -7,7 +7,7 @@ import {
   useMemo,
   useReducer,
 } from "react";
-import { TodoContext } from "./TodoContext";
+import { TodoContext, TodoContextMethod } from "./TodoContext";
 import { ItemByActionType, reducer } from "./todo-reducer";
 
 /* 
@@ -35,15 +35,12 @@ const TodoProvider: FC<{
     return JSON.parse(stringifiedTodo);
   });
 
-  const addTodoAction = useCallback(
-    (item: ItemByActionType["ADD-TODO"]) => {
-      dispatch({
-        type: "ADD-TODO",
-        item,
-      });
-    },
-    [dispatch]
-  );
+  const addTodoAction = useCallback((item: ItemByActionType["ADD-TODO"]) => {
+    dispatch({
+      type: "ADD-TODO",
+      item,
+    });
+  }, []);
 
   const addCategoryAction = useCallback(
     (item: ItemByActionType["ADD-CATEGORY"]) => {
@@ -52,18 +49,15 @@ const TodoProvider: FC<{
         item,
       });
     },
-    [dispatch]
+    []
   );
 
-  const doneTodoAction = useCallback(
-    (item: ItemByActionType["DONE-TODO"]) => {
-      dispatch({
-        type: "DONE-TODO",
-        item,
-      });
-    },
-    [dispatch]
-  );
+  const doneTodoAction = useCallback((item: ItemByActionType["DONE-TODO"]) => {
+    dispatch({
+      type: "DONE-TODO",
+      item,
+    });
+  }, []);
 
   const deleteTodoAction = useCallback(
     (item: ItemByActionType["DELETE-TODO"]) => {
@@ -72,7 +66,7 @@ const TodoProvider: FC<{
         item,
       });
     },
-    [dispatch]
+    []
   );
 
   const deleteCategoryAction = useCallback(
@@ -82,18 +76,15 @@ const TodoProvider: FC<{
         item,
       });
     },
-    [dispatch]
+    []
   );
 
-  const editTodoAction = useCallback(
-    (item: ItemByActionType["EDIT-TODO"]) => {
-      dispatch({
-        type: "EDIT-TODO",
-        item,
-      });
-    },
-    [dispatch]
-  );
+  const editTodoAction = useCallback((item: ItemByActionType["EDIT-TODO"]) => {
+    dispatch({
+      type: "EDIT-TODO",
+      item,
+    });
+  }, []);
 
   const editCategoryTitleAction = useCallback(
     (item: ItemByActionType["EDIT-CATEGORY-TITLE"]) => {
@@ -102,7 +93,7 @@ const TodoProvider: FC<{
         item,
       });
     },
-    [dispatch]
+    []
   );
 
   const reorderTodoAction = useCallback(
@@ -112,7 +103,7 @@ const TodoProvider: FC<{
         item,
       });
     },
-    [dispatch]
+    []
   );
 
   const moveCategoryAction = useCallback(
@@ -122,7 +113,7 @@ const TodoProvider: FC<{
         item,
       });
     },
-    [dispatch]
+    []
   );
 
   const importTodoAction = useCallback(
@@ -136,7 +127,7 @@ const TodoProvider: FC<{
         console.log("BOO");
       }
     },
-    [dispatch]
+    []
   );
 
   const clearTodoAction = useCallback(() => {
@@ -144,11 +135,16 @@ const TodoProvider: FC<{
       type: "CLEAR-TODO",
       item: null,
     });
-  }, [dispatch]);
+  }, []);
 
   const value = useMemo(() => {
     return {
       todos,
+    };
+  }, [todos]);
+
+  const methods = useMemo(() => {
+    return {
       addTodoAction,
       addCategoryAction,
       doneTodoAction,
@@ -162,7 +158,6 @@ const TodoProvider: FC<{
       clearTodoAction,
     };
   }, [
-    todos,
     addTodoAction,
     addCategoryAction,
     doneTodoAction,
@@ -180,7 +175,11 @@ const TodoProvider: FC<{
     setLocalStorageTodo(todos);
   }, [todos]);
 
-  return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
+  return (
+    <TodoContextMethod.Provider value={methods}>
+      <TodoContext.Provider value={value}>{children}</TodoContext.Provider>
+    </TodoContextMethod.Provider>
+  );
 };
 
 export default TodoProvider;

@@ -1,11 +1,11 @@
 import { PlusCircle } from "lucide-react";
 import React, { useContext, useId, useState } from "react";
-import { TodoContext } from "../context/TodoContext";
+import { TodoContextMethod } from "../context/TodoContext";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
 const AddCategory = () => {
-  const { addCategoryAction } = useContext(TodoContext);
+  const { addCategoryAction } = useContext(TodoContextMethod);
   const [title, setTitle] = useState("");
 
   const id = useId();

@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { TodoContext } from "../context/TodoContext";
+import { TodoContextMethod } from "../context/TodoContext";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import DeleteTodo from "./DeleteTodo";
@@ -27,7 +27,7 @@ const TodoCard: React.FC<Props> = ({ todo }) => {
   const [editing, setEditing] = useState(false);
   const [titleState, setTitleState] = useState(title);
   const [descState, setDescState] = useState(desc || "");
-  const { doneTodoAction, editTodoAction } = useContext(TodoContext);
+  const { doneTodoAction, editTodoAction } = useContext(TodoContextMethod);
 
   const handleDoneTodo = () => {
     doneTodoAction({ id });

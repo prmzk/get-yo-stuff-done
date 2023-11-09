@@ -9,12 +9,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useContext, useState } from "react";
-import { TodoContext } from "../context/TodoContext";
+import { TodoContextMethod } from "../context/TodoContext";
 import { useToast } from "../ui/use-toast";
 
 const ClearTodo: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const { clearTodoAction } = useContext(TodoContext);
+  const { clearTodoAction } = useContext(TodoContextMethod);
   const { toast } = useToast();
 
   const handleClearTodo = () => {

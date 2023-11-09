@@ -1,7 +1,7 @@
 import { Todo } from "@/lib/type";
 import { UndoIcon } from "lucide-react";
 import { useContext } from "react";
-import { TodoContext } from "../context/TodoContext";
+import { TodoContextMethod } from "../context/TodoContext";
 import { Button } from "../ui/button";
 import DeleteTodo from "./DeleteTodo";
 
@@ -9,7 +9,7 @@ type Props = {
   todo: Todo;
 };
 const TodoCardDone: React.FC<Props> = ({ todo: { title, desc, id } }) => {
-  const { doneTodoAction } = useContext(TodoContext);
+  const { doneTodoAction } = useContext(TodoContextMethod);
 
   const handleDoneTodo = () => {
     doneTodoAction({ id });
