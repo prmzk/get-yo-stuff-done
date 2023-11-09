@@ -4,7 +4,7 @@ import ImportDialog from "./ImportDialog";
 
 const Menu = () => {
   return (
-    <div className="mt-4 mb-24">
+    <div className="mt-4 mb-16">
       <div className="flex gap-2 flex-wrap mb-4">
         <ImportDialog />
         <ExportDialog />
