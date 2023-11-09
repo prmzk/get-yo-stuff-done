@@ -1,7 +1,7 @@
 import { useKeyPress, useMediaQuery, useOutsideClick } from "@/lib/hooks";
 import { Todos } from "@/lib/type";
 import { LayoutGrid, PlusCircle, X } from "lucide-react";
-import { useContext, useEffect, useRef, useState } from "react";
+import { memo, useContext, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { TodoContextMethod } from "../context/TodoContext";
 import { Button } from "../ui/button";
@@ -14,12 +14,12 @@ type Props = {
   categoryOpened: string;
 };
 
-const TodoViewTabCategory: React.FC<Props> = (props) => {
+const TodoViewTabCategory: React.FC<Props> = memo((props) => {
   const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
 
   if (isSmallDevice) return <MobileTab {...props} />;
   else return <DesktopTab {...props} />;
-};
+});
 
 const DesktopTab: React.FC<Props> = ({
   todos,
@@ -30,6 +30,7 @@ const DesktopTab: React.FC<Props> = ({
   const [title, setTitle] = useState("");
   const [editing, setEditing] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
+  const firstRender = useRef<HTMLInputElement>(null);
 
   const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,14 +50,11 @@ const DesktopTab: React.FC<Props> = ({
     if (editing) ref.current?.focus();
   }, [editing]);
 
-  useEffect(() => {
-    handleCategoryClick(todos.data[todos.data.length - 1].id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todos.data[todos.data.length - 1].id, handleCategoryClick]);
-
   return (
     <>
-      <h1 className="text-lg font-bold mb-2 py-2 px-4 gap-1">Categories</h1>
+      <h1 className="text-lg font-bold mb-2 py-2 px-4 gap-1" ref={firstRender}>
+        Categories
+      </h1>
       {todos.data.map((todoCat) => (
         <div
           key={todoCat.id}
@@ -149,16 +147,6 @@ const MobileTab: React.FC<Props> = ({
   useEffect(() => {
     if (editing) ref.current?.focus();
   }, [editing]);
-
-  useEffect(() => {
-    handleCategoryClick(todos.data[todos.data.length - 1].id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todos.data[todos.data.length - 1].id, handleCategoryClick]);
-
-  useEffect(() => {
-    handleCategoryClick(todos.data[todos.data.length - 1].id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todos.data[todos.data.length - 1].id, handleCategoryClick]);
 
   useEffect(() => {
     if (!open) setEditing(false);
